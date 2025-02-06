@@ -13,7 +13,13 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.shoppingbuddy",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We need access to your photo library to select images",
+        "NSCameraUsageDescription": "We need access to your camera to take photos",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +29,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "59ad7822-8664-47ea-9446-3f4dcfee3432"
+      }
     }
   }
 }
