@@ -6,10 +6,17 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.ViewStyle}>
             <Image 
                 style={styles.ImageStyle}
-                source={require('../img/girlduck.jpeg')}
+                source={require('../img/bg.png')}
             />
-            <Text style={styles.TextCombined}><Text style={styles.TextBK}>Your Shopping </Text><Text style={styles.TextYL}>Buddy</Text></Text>
-            <Text style={styles.TextCombined}><Text style={styles.TextBK}>Managing Your </Text><Text style={styles.TextYL}>List</Text><Text style={styles.TextBK}> with Ease</Text></Text>
+            <Text style={styles.TextCombined}>
+                <Text style={styles.TextBK}>Your Shopping </Text>
+                <Text style={styles.TextYL}>Buddy</Text>
+            </Text>
+            <Text style={styles.TextCombined}>
+                <Text style={styles.TextBK}>Managing Your </Text>
+                <Text style={styles.TextYL}>List</Text>
+                <Text style={styles.TextBK}> with Ease</Text>
+            </Text>
             <TouchableOpacity 
                 style={styles.ButtonStyle} 
                 onPress={() => navigation.navigate('Shopping')} 
@@ -22,17 +29,16 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({ 
     ViewStyle: { 
-        backgroundColor: '#F2F2F2',
+        backgroundColor: '#F9F9F9',
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center', 
+        alignItems: 'center',  
         padding: 20,
     },
     ImageStyle: {
-        width: 310, 
+        width: 350, 
         height: 310, 
-        marginTop: 160, 
-        marginBottom: 40,
+        marginBottom: 40,  
     },
     TextBK: {
         color: '#1C1C1C',
@@ -49,14 +55,15 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         margin: 10,
+        textAlign: 'center',  
     },
     ButtonStyle: {
-        backgroundColor: '#EFCC00',
+        backgroundColor: '#94D4E9',
         borderRadius: 20,
-        paddingVertical: 12,
+        paddingVertical: 15,
         paddingHorizontal: 40,
         alignItems: 'center',
-        marginTop: 70,
+        marginTop: 70,  
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
@@ -64,7 +71,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     ButtonText: {
-        color: '#1C1C1C',
+        color: 'black',
         fontSize: 18,
         fontWeight: '500',
     },

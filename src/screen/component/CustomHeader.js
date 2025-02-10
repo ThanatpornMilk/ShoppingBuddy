@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CustomHeader = ({ navigation, title }) => {
-  const currentScreen = navigation.getState().routes[navigation.getState().index].name; //ตรวจชื่อหน้าปัจจุบัน
+  const [currentScreen, setCurrentScreen] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('state', () => {
+      const currentRoute = navigation.getState().routes[navigation.getState().index].name;
+      setCurrentScreen(currentRoute);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const handleBackPress = () => {
     if (currentScreen === "Shopping") {
@@ -20,12 +29,7 @@ const CustomHeader = ({ navigation, title }) => {
       <TouchableOpacity style={styles.IconContainer} onPress={handleBackPress}>
         <Icon name="arrow-left" size={24} color="black" />
       </TouchableOpacity>
-
       <Text style={styles.HeaderText}>{title}</Text>
-
-      <TouchableOpacity style={styles.IconContainer}>
-        <Icon name="theme-light-dark" size={24} color="black" />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -35,14 +39,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#EFCC00",
+    backgroundColor: "#94D4E9",
     paddingVertical: 20,
     paddingHorizontal: 20,
+    position: 'relative',  
   },
   HeaderText: {
+    flex: 1,
+    textAlign: "center",
     fontSize: 20,
     fontWeight: "500",
     marginTop: 45,
+    color: 'black'
   },
   IconContainer: {
     marginTop: 45,

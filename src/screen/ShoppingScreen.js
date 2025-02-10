@@ -176,7 +176,7 @@ const ShoppingScreen = ({ navigation }) => {
           style={styles.addButton}
           onPress={() => navigation.navigate("AddItem", { refreshCards })} 
         >
-          <Icon name="plus" size={30} color="white" />
+          <Icon name="plus" size={30} color="black" />
         </TouchableOpacity>
       </View>
     </View>
@@ -186,13 +186,16 @@ const ShoppingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EAEAEA",
+    backgroundColor: "#F9F9F9",
+    position: 'relative',
   },
   searchItem: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#F9F9F9",
     borderRadius: 10,
+    borderWidth: 1, 
+    borderColor: "#ccc",
     padding: 13,
     width: "85%",
     alignSelf: "center",
@@ -202,6 +205,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 2,
+    position: 'relative',
   },
   input: {
     flex: 1,
@@ -213,12 +217,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 19,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#94D4E9",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    position: 'relative',
   },
   addButton: {
-    backgroundColor: "#EFCC00",
+    backgroundColor: "#F8EF94",
     borderRadius: 50,
     padding: 20,
     position: "absolute",
@@ -237,6 +242,7 @@ const styles = StyleSheet.create({
     paddingLeft: 35,
     paddingRight: 35,
     marginTop: 15,
+    position: 'relative',
   },
   clearAllContainer: {
     flexDirection: "row",
@@ -262,7 +268,7 @@ const styles = StyleSheet.create({
   },
   swipeAction: {
     flexDirection: "row",
-    backgroundColor: "#EFCC00",
+    backgroundColor: "#94D4E9",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center", 

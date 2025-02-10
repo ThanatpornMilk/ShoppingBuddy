@@ -9,7 +9,7 @@ const ItemCard = ({ name, price, image, onEdit, isPurchased, togglePurchase, cat
         <Icon 
           name={isPurchased ? "checkbox-marked-outline" : "checkbox-blank-outline"} 
           size={24} 
-          color={isPurchased ? "#CD3333" : "#ccc"} 
+          color={isPurchased ? "#CD3333" : "#333333"} 
         />
       </TouchableOpacity>
 
@@ -36,7 +36,7 @@ const ItemCard = ({ name, price, image, onEdit, isPurchased, togglePurchase, cat
 const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
-    backgroundColor: "#F2F2F2",
+    backgroundColor: "#F8EF94",
     marginHorizontal: 30,
     borderRadius: 8,
     margin: 10,
@@ -47,9 +47,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 2,
+    position: "relative",
   },
   purchasedCard: {
-    backgroundColor: "#D3D3D3", 
+    backgroundColor: "#D3D3D3",  
   },
   image: {
     width: 80,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   category: {
     fontSize: 14,
-    color: "#888",
+    color: "#333333",
     marginVertical: 4,  
   },
   price: {

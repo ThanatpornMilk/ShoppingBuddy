@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -13,13 +13,27 @@ const EditItemScreen = ({ route, navigation }) => {
   const [category, setCategory] = useState(item.category);
   const [isOpen, setIsOpen] = useState(false);
 
+  // ใช้ useEffect เพื่ออัปเดตฟังก์ชัน refreshCards ผ่าน navigation.setOptions
+  useEffect(() => {
+    if (route.params?.refreshCards) {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity onPress={route.params.refreshCards}>
+            <Text>Refresh Cards</Text>
+          </TouchableOpacity>
+        ),
+      });
+    }
+  }, [navigation, route.params?.refreshCards]);
+
   const isValidUrl = (url) => {
     const regex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
     return regex.test(url);
   };
 
   const handleSave = async () => {
-    if (!name || !price || !image || !category) {
+    const trimmedName = name.trim();
+    if (!name || !price || !image) {
       Alert.alert("Please fill in all the fields");
     } else if (isNaN(price) || parseFloat(price) < 0) {
       Alert.alert("Price cannot be negative");
@@ -31,13 +45,13 @@ const EditItemScreen = ({ route, navigation }) => {
         name,
         price: parseFloat(price),
         image,
-        category,
+        category: category || null,
       };
-
+  
       try {
         const storageCards = await AsyncStorage.getItem("@card_data");
         const cards = storageCards ? JSON.parse(storageCards) : [];
-
+  
         const index = cards.findIndex((card) => card.id === item.id);
         if (index !== -1) {
           cards[index] = updatedItem;
@@ -46,8 +60,6 @@ const EditItemScreen = ({ route, navigation }) => {
       } catch (error) {
         console.error("Failed to save updated card:", error);
       }
-
-      route.params.refreshCards();
       navigation.goBack();
     }
   };
@@ -111,36 +123,53 @@ const EditItemScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EAEAEA",
+    backgroundColor: "#F9F9F9",
+    position: "relative", 
   },
   form: {
     flex: 1,  
     marginTop: 20,
     paddingHorizontal: 20,
+    position: "relative", 
   },
   input: {
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#F9F9F9",
     borderRadius: 10,
+    borderWidth: 1, 
+    borderColor: "#ccc",
     marginBottom: 15,
     padding: 13,
     fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
+    position: "relative",
   },
   dropdown: {
     borderWidth: 0.5,
     borderColor: "#ccc",
     borderRadius: 10,
     height: 50,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#F9F9F9",
     paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
+    position: "relative",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,  
     marginBottom: 50, 
+    position: "relative", 
   },
   button: {
-    backgroundColor: "#EFCC00",
+    backgroundColor: "#F8EF94",
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
@@ -150,9 +179,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 2,
+    position: "relative", // ใช้ตำแหน่ง relative
   },
   cancelButton: {
-    backgroundColor: "#D3D3D3",
+    backgroundColor: "#D5D4D4",
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: "center",
@@ -162,6 +192,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 2,
+    position: "relative", 
   },
   buttonText: {
     fontSize: 16,

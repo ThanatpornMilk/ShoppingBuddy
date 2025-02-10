@@ -27,8 +27,12 @@ const AddItemScreen = ({ navigation, route }) => {
       error = "This field is required";
     } else if (field === "image" && value.trim() && !isValidUrl(value)) {
       error = "Please enter a valid image URL";
-    } else if (field === "price" && value.trim() && parseFloat(value) < 0) {
-      error = "Price cannot be negative";
+    } else if (field === "price") {
+      if (value.trim() && parseFloat(value) < 0) {
+        error = "Price cannot be negative";
+      } else if (value.trim() && isNaN(value)) {
+        error = "Please enter a valid price";
+      }
     }
     setErrors((prevErrors) => ({ ...prevErrors, [field]: error }));
     return error;
@@ -38,39 +42,42 @@ const AddItemScreen = ({ navigation, route }) => {
     const nameError = validateField("name", name);
     const priceError = validateField("price", price);
     const imageError = validateField("image", image);
-    const categoryError = validateField("category", category);
-
+    const categoryError = category === null ? "" : validateField("category", category);
+  
     if (!nameError && !priceError && !imageError && !categoryError) {
       const newCard = {
         id: Date.now().toString(),
         name,
         price,
         image,
-        category,
+        category: category || null, // ถ้าไม่เลือก category จะเป็น null
       };
-
+  
       try {
         const storedCards = await AsyncStorage.getItem(STORAGE_KEY);
         const existingCards = storedCards ? JSON.parse(storedCards) : [];
         const updatedCards = [newCard, ...existingCards];
         await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCards));
-        refreshCards();
         navigation.goBack();
+        if (route.params && typeof route.params.refreshCards === 'function') {
+          route.params.refreshCards();  
+        }
       } catch (error) {
         console.error("Error: ", error);
       }
     } else {
-      Alert.alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      Alert.alert("Please fill in all the fields");
     }
-  };
+  };  
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.Container}>
         <CustomHeader navigation={navigation} title="Add Item" />
         <KeyboardAvoidingView
           style={styles.Content}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "android" ? 100 : 0} // เพิ่ม offset สำหรับ Android
         >
           <View style={styles.InputWrapper}>
             <View style={styles.InputContainer}>
@@ -124,6 +131,7 @@ const AddItemScreen = ({ navigation, route }) => {
                 setValue={setCategory}
                 placeholder="Select Category"
                 style={styles.DropDownStyle}
+                onClose={() => Keyboard.dismiss()} // เพิ่มการปิดคีย์บอร์ดเมื่อปิด dropdown
               />
             </View>
             {errors.category ? <Text style={styles.ErrorText}>{errors.category}</Text> : null}
@@ -146,7 +154,8 @@ const AddItemScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: "#EAEAEA",
+    backgroundColor: "#F9F9F9",
+    position: "relative",  
   },
   Content: {
     flex: 1,
@@ -155,38 +164,54 @@ const styles = StyleSheet.create({
   InputWrapper: {
     paddingHorizontal: 20,
     paddingTop: 20,
+    position: "relative",  
   },
   InputContainer: {
     flexDirection: "row",
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#F9F9F9",
     borderRadius: 10,
     borderWidth: 0.5,
     borderColor: "#ccc",
     padding: 13,
     marginBottom: 15,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
+    position: "relative",  
   },
   Icon: {
     marginRight: 10,
+    position: "absolute",  
+    left: 10, 
   },
   Input: {
     flex: 1,
     fontSize: 16,
+    paddingLeft: 30, 
   },
   DropDownStyle: {
     borderWidth: 0.5,
     borderColor: "#ccc",
     borderRadius: 10,
     height: 50,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#F9F9F9",
     paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
   ButtonContainer: {
     paddingHorizontal: 20,
     marginBottom: 50,
+    position: "relative",  
   },
   Button: {
-    backgroundColor: "#EFCC00",
+    backgroundColor: "#F8EF94",
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: "center",
@@ -198,7 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   CancelButton: {
-    backgroundColor: "#ccc",
+    backgroundColor: "#D5D4D4",
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: "center",
