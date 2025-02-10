@@ -25,5 +25,5 @@ To get started with the project, follow these steps:
 - If you're using Expo:
    npx expo start
 - If you're using React Native CLI: 
-   For Android: npx react-native run-android
-   For iOS: npx react-native run-ios
+   -For Android: npx react-native run-android
+   -For iOS: npx react-native run-ios
